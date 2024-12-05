@@ -5,14 +5,15 @@ import "dotenv/config";
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
-import productRouter from "./routes/productRoute.js";
-import cartRouter from "./routes/cartRoute.js";
-import orderRouter from "./routes/orderRoute.js";
+// import productRouter from "./routes/productRoute.js";
+// import cartRouter from "./routes/cartRoute.js";
+// import orderRouter from "./routes/orderRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
-// connectDB();
-// connectCloudinary();
+
+connectDB();
+connectCloudinary();
 
 app.use(express.json());
 
@@ -24,24 +25,24 @@ app.use(express.json());
 //   "https://76.76.21.98:443"
 // ];
 
-// // Configure CORS
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       // Allow requests with no origin (e.g., mobile apps or curl)
-//       if (!origin) return callback(null, true);
-//       if (allowedOrigins.includes(origin)) {
-//         callback(null, true); // Allow the origin
-//       } else {
-//         callback(new Error("Not allowed by CORS")); // Block the origin
-//       }
-//     },
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true, // Allow cookies or Authorization headers
-//   })
-// );
+ // Configure CORS
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., mobile apps or curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true); // Allow the origin
+      } else {
+        callback(new Error("Not allowed by CORS")); // Block the origin
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Allow cookies or Authorization headers
+  })
+);
 
-// app.use("/api/user", userRouter);
+app.use("/api/user", userRouter);
 // app.use("/api/product", productRouter);
 // app.use("/api/cart", cartRouter);
 // app.use("/api/order", orderRouter);
