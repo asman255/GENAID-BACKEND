@@ -1,12 +1,12 @@
 import express from "express";
 import {
-  getCardProductList,
-  getCardProductRead,
+  getProductList,
+  getProductRead,
 } from "../controllers/productController.js";
 
 const productRouter = express.Router();
 
-productRouter.get('/products', getCardProductList);
-ProductRouter.get('/products/:id', getCardProductRead);
+productRouter.get('/', getProductList);
+productRouter.get('/:id', getProductRead);
 
 export default productRouter;
