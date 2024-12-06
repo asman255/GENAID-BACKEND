@@ -31,20 +31,27 @@ const allowedOrigins = [
   "https://76.76.21.98:443", // Add any other required domains here
 ];
 
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true, // Allow cookies or Authorization headers
+//   })
+// );
+
+
+
 app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Allow cookies or Authorization headers
-  })
+  cors()
 );
+
 
 // API routes
 app.use("/api/products", productRouter);
