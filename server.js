@@ -8,7 +8,7 @@ import connectDB from "./config/mongodb.js";
 // import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
 // import orderRouter from "./routes/orderRoute.js";
-import cardProductRouter from "./routes/CardProductRoutes.js";
+import cardProductRouter from "./routes/productRoutes.js";
 
 const app = express();
 const port = process.env.PORT || 4000;

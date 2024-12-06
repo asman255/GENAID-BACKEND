@@ -1,8 +1,8 @@
-import CardProducts from "../models/CardProductModels.js";
+import Products from "../models/productModels.js";
 import mongoose from "mongoose";
 
 // Get all card products or filter by category
-export const getCardProductList = async (req, res) => {
+export const getProductList = async (req, res) => {
   try {
     const { categoriesname } = req.query;
 
@@ -11,7 +11,7 @@ export const getCardProductList = async (req, res) => {
       ? { categoriesname: { $regex: new RegExp(categoriesname, "i") } } // Case-insensitive regex match
       : {};
 
-    const products = await CardProducts.find(query);
+    const products = await Products.find(query);
     if (products.length === 0) {
       return res.status(404).json({ message: "No products found for this category" });
     }
@@ -24,7 +24,7 @@ export const getCardProductList = async (req, res) => {
 };
 
 // Get a specific card product by ID
-export const getCardProductRead = async (req, res) => {
+export const getProductRead = async (req, res) => {
   try {
     const isValidId = mongoose.Types.ObjectId.isValid(req.params.id);
     if (!isValidId) return res.status(400).json({ message: "Invalid product ID" });
