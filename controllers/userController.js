@@ -11,6 +11,7 @@ const createToken = (id) => {
 // Route: for user login
 const loginUser = async (req, res) => {
     try {
+        console.log(req.body);
         const { email, password } = req.body;
         const user = await userModel.findOne({ email });
         if (!user) {
@@ -27,13 +28,14 @@ const loginUser = async (req, res) => {
         console.log(error)
         res.json({ success: false, message: error.message });
     }
+    
 };
 
 
 //Route: for user register
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { fullname, email, password,phone } = req.body;
         const exists = await userModel.findOne({ email });
         if (exists) {
             return res.json({ success: false, message: "User already exists" });
@@ -41,13 +43,17 @@ const registerUser = async (req, res) => {
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Please enter a valid email" });
         }
+        if(!validator.isMobilePhone(phone)){
+            return res.json({ success: false, message: "Please enter a valid phone number" });
+        } 
+        console.log(req.body);  
         if (password.length < 8) {
             return res.json({ success: false, message: "Password must be at least 8 characters long" });
         }
         //hashing user password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        const newUser = new userModel({ name, email, password: hashedPassword });
+        const newUser = new userModel({ fullname, email, phone, password: hashedPassword });
         const savedUser = await newUser.save();
         const token = createToken(savedUser._id);
         res.json({ success: true, token });

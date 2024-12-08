@@ -17,13 +17,13 @@ connectCloudinary();
 
 app.use(express.json());
 
-// const allowedOrigins = [
-//   "https://frontend-admin-psi-green.vercel.app",
-//   "https://frontend-user-theta.vercel.app",
-//   "http://localhost:5173", // For local development
-//   "http://localhost:5176", // For local development
-//   "https://76.76.21.98:443"
-// ];
+const allowedOrigins = [
+  // "https://frontend-admin-psi-green.vercel.app",
+  // "https://frontend-user-theta.vercel.app",
+  "http://localhost:5173", // For local development
+  // "http://localhost:5176", // For local development
+  // "https://76.76.21.98:443"
+];
 
  // Configure CORS
 app.use(
