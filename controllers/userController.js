@@ -37,8 +37,12 @@ const registerUser = async (req, res) => {
     try {
         const { fullname, email, password,phone } = req.body;
         const exists = await userModel.findOne({ email });
+        const phoneExists = await userModel.findOne({ phone });
         if (exists) {
             return res.json({ success: false, message: "User already exists" });
+        }
+        if (phoneExists) {
+            return res.json({ success: false, message: "phone already exists" });
         }
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Please enter a valid email" });
