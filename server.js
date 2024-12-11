@@ -3,18 +3,15 @@ import cors from "cors";
 import "dotenv/config";
 // Uncomment and test these as needed
 import connectDB from "./config/mongodb.js";
-
 import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
-// import productRouter from "./routes/productRoute.js";
-// import cartRouter from "./routes/cartRoute.js";
-// import orderRouter from "./routes/orderRoute.js";
+import orderRouter from "./routes/orderRoute.js";
 
-// import connectCloudinary from "./config/cloudinary.js";
-// import userRouter from "./routes/userRoute.js";
 // import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
-// import orderRouter from "./routes/orderRoute.js";
+// import connectCloudinary from "./config/cloudinary.js";
+// import productRouter from "./routes/productRoute.js";
+// import cartRouter from "./routes/cartRoute.js";
 import productRouter from "./routes/productRoutes.js";
 
 
@@ -37,12 +34,12 @@ app.use(
 // API routes
 app.use("/api/products", productRouter);
 app.use("/api/user", userRouter);
-// Uncomment the below routes when ready
-// app.use("/api/user", userRouter);
+app.use("/api/order", orderRouter);
 
+// Uncomment the below routes when ready
 // app.use("/api/product", productRouter);
 // app.use("/api/cart", cartRouter);
-// app.use("/api/order", orderRouter);
+
 
 // Default route
 app.get("/", (req, res) => {
