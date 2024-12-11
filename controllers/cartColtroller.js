@@ -1,0 +1,178 @@
+import userModel from "../models/userModel.js";
+
+const addToCart = async (req, res) => {
+  try {
+    const { userId, productId, quantity } = req.body;
+    console.log("Request Body:", req.body);
+
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    console.log("User Found:", user);
+
+    // Initialize cartData if it doesn't exist
+    if (!user.cartData) {
+      user.cartData = {};
+    }
+
+    console.log("Initial Cart Data:", user.cartData);
+
+    // Ensure productId is a string and quantity is a number
+    const productKey = productId.toString();
+    const qty = Number(quantity);
+
+    if (isNaN(qty) || qty <= 0) {
+      return res.status(400).json({ message: "Invalid quantity" });
+    }
+
+    // Update cartData
+    // console.log("DEBUG: ",user.cartData[2])
+    if (user.cartData[productKey]) {
+      user.cartData[productKey] += qty;
+      console.log(
+        `Updated quantity for product ${productKey}:`,
+        user.cartData[productKey]
+      );
+    } else {
+      user.cartData[productKey] = qty;
+      console.log(`Added new product ${productKey} with quantity:`, qty);
+    }
+
+    // Force Mongoose to track changes to cartData
+    user.markModified("cartData");
+
+    // Save the updated user document
+    await user.save();
+    console.log(
+      "User saved successfully with updated cartData:",
+      user.cartData
+    );
+
+    // Verify the saved data from the database
+    // const updatedUser = await userModel.findById(userId);
+    // console.log('Updated user from database:', updatedUser);
+
+    res.status(200).json({
+      message: "Product added to cart successfully",
+      cartData: user.cartData,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res
+      .status(500)
+      .json({ message: "Error adding product to cart", error: error.message });
+  }
+};
+
+const updateCart = async (req, res) => {
+  try {
+    const { userId, productId, quantity } = req.body;
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // Ensure productId is a string and quantity is a number
+    const productKey = productId.toString();
+    const qty = Number(quantity);
+
+    if (isNaN(qty) || qty <= 0) {
+      return res.status(400).json({ message: "Invalid quantity" });
+    }
+    if (user.cartData[productKey]) {
+      user.cartData[productKey] = quantity;
+      console.log(
+        `Updated quantity for product ${productKey}:`,
+        user.cartData[productKey]
+      );
+    } else {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Force Mongoose to track changes to cartData
+    user.markModified("cartData");
+
+    // Save the updated user document
+    await user.save();
+    console.log(
+      "User saved successfully with updated cartData:",
+      user.cartData
+    );
+
+    // Verify the saved data from the database
+    // const updatedUser = await userModel.findById(userId);
+    // console.log('Updated user from database:', updatedUser);
+
+    res.status(200).json({
+      message: "Product added to cart successfully",
+      cartData: user.cartData,
+    });
+
+    console.log("User Found:", user);
+  } catch (error) {}
+};
+
+
+const delCart = async (req, res) => {
+    try {
+      const { userId, productId } = req.body;
+      console.log("Request Body:", req.body);
+  
+      const user = await userModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      console.log("User Found:", user);
+  
+      // Initialize cartData if it doesn't exist
+      if (!user.cartData) {
+        user.cartData = {};
+      }
+  
+      console.log("Initial Cart Data:", user.cartData);
+  
+      // Ensure productId is a string and quantity is a number
+      const productKey = productId.toString();
+  
+      // Update cartData
+      // console.log("DEBUG: ",user.cartData[2])
+      if (user.cartData[productKey]) {
+        delete user.cartData[productKey];
+        console.log(
+          `delete for product ${productKey}:`,
+          user.cartData[productKey]
+        );
+      } else {
+        // user.cartData[productKey] = qty;
+        console.log(`delete product ${productKey} `);
+      }
+  
+      // Force Mongoose to track changes to cartData
+      user.markModified("cartData");
+  
+      // Save the updated user document
+      await user.save();
+      console.log(
+        "User saved successfully with updated cartData:",
+        user.cartData
+      );
+  
+      // Verify the saved data from the database
+      // const updatedUser = await userModel.findById(userId);
+      // console.log('Updated user from database:', updatedUser);
+  
+      res.status(200).json({
+        message: "Product added to cart successfully",
+        cartData: user.cartData,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      res
+        .status(500)
+        .json({ message: "Error adding product to cart", error: error.message });
+    }
+  };
+
+export { addToCart, updateCart,delCart };
