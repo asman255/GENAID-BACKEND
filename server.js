@@ -5,11 +5,18 @@ import "dotenv/config";
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
+import orderRouter from "./routes/orderRoute.js";
+
 // import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
-// import orderRouter from "./routes/orderRoute.js";
+
+// import connectCloudinary from "./config/cloudinary.js";
+// import productRouter from "./routes/productRoute.js";
+// import cartRouter from "./routes/cartRoute.js";
 import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoute.js";
+import cartRouter from "./routes/cartRoute.js";
+
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -33,10 +40,19 @@ app.use(
 // API routes
 app.use("/api/products", productRouter);
 app.use("/api/user", userRouter);
+app.use("/api/order", orderRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/cart", cartRouter);
 // Uncomment the below routes when ready
+
+// app.use("/api/user", userRouter);
+
+
+// Uncomment the below routes when ready
+// app.use("/api/product", productRouter);
+
 // app.use("/api/cart", cartRouter);
-// app.use("/api/order", orderRouter);
+
 
 // Default route
 app.get("/", (req, res) => {

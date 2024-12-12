@@ -8,7 +8,7 @@ const userAuth = async (req, res, next) => {
         return res.json({ success: false, message: "Please login first" })
     }
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const token_decode = jwt.verify(token, process.env.JWT_SECRET);
         req.userId = token_decode.id;
         next();
     } catch (error) {
