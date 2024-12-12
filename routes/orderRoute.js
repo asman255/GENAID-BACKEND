@@ -14,7 +14,7 @@ const orderRouter = express.Router();
 
 
 //user routes
-orderRouter.post("/userorders",userAuth,userOrder )
+orderRouter.post("/orders",userAuth,userOrder )
 
 //verify payment routes
 // orderRouter.post("/verifyStripe" )

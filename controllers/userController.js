@@ -13,7 +13,7 @@ const loginUser = async (req, res) => {
     try {
         console.log(req.body);
         const { email, password } = req.body;
-        
+
         const user = await userModel.findOne({ email: email.toLowerCase() }); 
         if (!user) {
             return res.json({ success: false, message: "User doesn't exist" });
@@ -21,7 +21,7 @@ const loginUser = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch) {
             const token = createToken(user._id);
-            res.json({ success: true, message: "welcome User" ,token });
+            res.json({ success: true, message: "welcome! User!" ,token });
         } else {
             res.json({ success: false, message: "Incorrect password" });
         }

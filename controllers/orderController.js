@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // order  data for  frontend
  const userOrder = async (req, res) => {
     try {
-        const { userId } = req.body;
+        const  userId  = req.userId; 
         const order = await orderModel.find({ userId });
         res.json({ success: true, order });
     } catch (error) {
