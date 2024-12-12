@@ -13,6 +13,7 @@ import orderRouter from "./routes/orderRoute.js";
 // import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
 import productRouter from "./routes/productRoutes.js";
+import categoryRouter from "./routes/categoryRoute.js";
 
 
 const app = express();
@@ -35,6 +36,10 @@ app.use(
 app.use("/api/products", productRouter);
 app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/category", categoryRouter);
+// Uncomment the below routes when ready
+// app.use("/api/user", userRouter);
+
 
 // Uncomment the below routes when ready
 // app.use("/api/product", productRouter);
