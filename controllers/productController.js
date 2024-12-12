@@ -1,43 +1,114 @@
 import Products from "../models/productModels.js";
 import mongoose from "mongoose";
 
-// Get all card products or filter by category
+// Get all products or filter by category
 export const getProductList = async (req, res) => {
   try {
     const { categoriesname } = req.query;
 
-    // Create query object for case-insensitive match
     const query = categoriesname
-      ? { categoriesname: { $regex: new RegExp(categoriesname, "i") } } // Case-insensitive regex match
+      ? { categoriesname: { $regex: new RegExp(categoriesname, "i") } }
       : {};
 
     const products = await Products.find(query);
+
     if (products.length === 0) {
+      console.log("No products found for category:", categoriesname); // Debugging
       return res.status(404).json({ message: "No products found for this category" });
     }
 
     res.status(200).json(products);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "Error fetching card products" });
+    console.error("Error fetching products:", err.message); // Debugging
+    res.status(500).json({ message: "Error fetching products" });
   }
 };
 
-// Get a specific card product by ID
+// Get a specific product by ID
 export const getProductRead = async (req, res) => {
   try {
-    const isValidId = mongoose.Types.ObjectId.isValid(req.params.id);
-    if (!isValidId) return res.status(400).json({ message: "Invalid product ID" });
+    const { id } = req.params;
 
-    const product = await CardProducts.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found" });
+    const isValidId = mongoose.Types.ObjectId.isValid(id);
+    if (!isValidId) {
+      return res.status(400).json({
+        message: "Invalid product ID provided",
+        invalidId: id,
+      });
+    }
+
+    const product = await Products.findById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
     res.status(200).json(product);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "Error fetching card product" });
+    res.status(500).json({ message: "Error fetching product" });
   }
 };
+
+// Search API for products with advanced filters
+export const searchProducts = async (req, res) => {
+  try {
+    const { search, category, tag, minPrice, maxPrice, limit, skip, sort } = req.query;
+
+    // Build the query object dynamically
+    const query = {};
+
+    // General Search
+    if (search) {
+      const searchRegex = new RegExp(search.split(" ").join("|"), "i");
+      query.$or = [
+        { categoriesname: { $regex: searchRegex } },
+        { productname: { $regex: searchRegex } },
+        { tags: { $regex: searchRegex } },
+        { description: { $regex: searchRegex } },
+      ];
+    }
+
+    // Filter by Category
+    if (category) {
+      query.categoriesname = { $regex: new RegExp(category, "i") };
+    }
+
+    // Filter by Tag
+    if (tag) {
+      query.tags = { $regex: new RegExp(tag, "i") };
+    }
+
+    // Filter by Price Range
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    // Validate limit and skip
+    const pageLimit = parseInt(limit) || 10;
+    const pageSkip = parseInt(skip) || 0;
+
+    // Default sorting
+    const sortOption = sort || "productname";
+
+    // Fetch products from MongoDB
+    const searchResults = await Products.find(query)
+      .limit(pageLimit)
+      .skip(pageSkip)
+      .sort(sortOption);
+
+    if (searchResults.length === 0) {
+      return res.status(404).json({ message: "No products found" });
+    }
+
+    res.status(200).json(searchResults);
+  } catch (err) {
+    console.error("Error fetching search results:", err.message);
+    res.status(500).json({ message: "Error fetching search results", error: err.message });
+  }
+};
+
 
 /*
 // Add a new card product
