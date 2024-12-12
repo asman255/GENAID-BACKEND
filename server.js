@@ -14,7 +14,7 @@ import orderRouter from "./routes/orderRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
 import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoute.js";
-
+import cartRouter from "./routes/cartRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -37,6 +37,7 @@ app.use("/api/products", productRouter);
 app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/cart", cartRouter);
 // Uncomment the below routes when ready
 // app.use("/api/user", userRouter);
 
