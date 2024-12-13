@@ -10,7 +10,6 @@ import orderRouter from "./routes/orderRoute.js";
 // import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
 // import connectCloudinary from "./config/cloudinary.js";
-// import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
 import productRouter from "./routes/productRoutes.js";
 
@@ -27,9 +26,7 @@ connectCloudinary();
 // Middleware to parse JSON
 app.use(express.json());
 
-app.use(
-  cors()
-);
+app.use(cors());
 
 // API routes
 app.use("/api/products", productRouter);
