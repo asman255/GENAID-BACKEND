@@ -9,20 +9,19 @@ import orderRouter from "./routes/orderRoute.js";
 
 // import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
+
 // import connectCloudinary from "./config/cloudinary.js";
 // import cartRouter from "./routes/cartRoute.js";
 import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoute.js";
-
+import cartRouter from "./routes/cartRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
-
+// Establish database connection
 connectDB();
 connectCloudinary();
-
-
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -34,14 +33,15 @@ app.use("/api/products", productRouter);
 app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/cart", cartRouter);
 // Uncomment the below routes when ready
-// app.use("/api/user", userRouter);
 
+// app.use("/api/user", userRouter);
 
 // Uncomment the below routes when ready
 // app.use("/api/product", productRouter);
-// app.use("/api/cart", cartRouter);
 
+// app.use("/api/cart", cartRouter);
 
 // Default route
 app.get("/", (req, res) => {
