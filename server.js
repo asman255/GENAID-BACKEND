@@ -17,7 +17,6 @@ import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 
-
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -29,13 +28,14 @@ connectCloudinary();
 app.use(express.json());
 
 // CORS middleware
-app.use(
-  cors({
-    origin: "*", // Adjust the origin as needed for security
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: "*", // Adjust the origin as needed for security
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+app.use(cors());
 
 // API routes
 app.use("/api/products", productRouter);
@@ -47,12 +47,10 @@ app.use("/api/cart", cartRouter);
 
 // app.use("/api/user", userRouter);
 
-
 // Uncomment the below routes when ready
 // app.use("/api/product", productRouter);
 
 // app.use("/api/cart", cartRouter);
-
 
 // Default route
 app.get("/", (req, res) => {

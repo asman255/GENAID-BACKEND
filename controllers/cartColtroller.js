@@ -2,15 +2,18 @@ import userModel from "../models/userModel.js";
 
 const getCart = async (req, res) => {
   try {
-    const { userId } = req.body;
-    console.log("Request Body:", req.body);
+    //const { userId } = req.body;
+    const userId = req.userId;
+    //console.log("id from cart: ", userId);
+    // console.log("this is userid in cart:", req.body.userId);
+    // console.log("Request Body:", req.body);
 
     const user = await userModel.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    console.log("User Found:", user);
+    // console.log("User Found:", user);
 
     let cartData = await user.cartData;
 
@@ -24,25 +27,27 @@ const getCart = async (req, res) => {
 };
 const addToCart = async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const { productid, productname, image, price, quantity } =
+      req.body.prodCart;
+    const userId = req.userId;
     console.log("Request Body:", req.body);
-
+    const cartProd = req.body.prodCart;
     const user = await userModel.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    console.log("User Found:", user);
+    console.log("User Found:");
 
     // Initialize cartData if it doesn't exist
     if (!user.cartData) {
       user.cartData = {};
     }
 
-    console.log("Initial Cart Data:", user.cartData);
+    //console.log("Initial Cart Data:", user.cartData);
 
     // Ensure productId is a string and quantity is a number
-    const productKey = productId.toString();
+    const productKey = productid.toString();
     const qty = Number(quantity);
 
     if (isNaN(qty) || qty <= 0) {
@@ -52,13 +57,14 @@ const addToCart = async (req, res) => {
     // Update cartData
     // console.log("DEBUG: ",user.cartData[2])
     if (user.cartData[productKey]) {
-      user.cartData[productKey] += qty;
+      // user.cartData[productKey] += qty;
+      user.cartData[productKey] = cartProd;
       console.log(
         `Updated quantity for product ${productKey}:`,
         user.cartData[productKey]
       );
     } else {
-      user.cartData[productKey] = qty;
+      user.cartData[productKey] = cartProd;
       console.log(`Added new product ${productKey} with quantity:`, qty);
     }
 
@@ -137,15 +143,16 @@ const updateCart = async (req, res) => {
 
 const delCart = async (req, res) => {
   try {
-    const { userId, productId } = req.body;
-    console.log("Request Body:", req.body);
+    const { productId } = req.body;
+    const userId = req.userId;
+    console.log("Request Body delete:", req.body);
 
     const user = await userModel.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    console.log("User Found:", user);
+    // console.log("User Found:", user);
 
     // Initialize cartData if it doesn't exist
     if (!user.cartData) {
@@ -185,7 +192,7 @@ const delCart = async (req, res) => {
     // console.log('Updated user from database:', updatedUser);
 
     res.status(200).json({
-      message: "Product added to cart successfully",
+      message: "Product deleted from cart successfully",
       cartData: user.cartData,
     });
   } catch (error) {
@@ -196,4 +203,4 @@ const delCart = async (req, res) => {
   }
 };
 
-export { addToCart, updateCart, delCart,getCart };
+export { addToCart, updateCart, delCart, getCart };
