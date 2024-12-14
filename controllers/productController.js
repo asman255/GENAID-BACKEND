@@ -109,8 +109,33 @@ export const searchProducts = async (req, res) => {
   }
 };
 
-
 /*
+// Get all products filtered by a specific category
+
+export const getProductsByCategory = async (req, res) => {
+  try {
+    const { category } = req.query;
+
+    if (!category) {
+      return res.status(400).json({ message: "Category is required for filtering" });
+    }
+
+    const products = await Products.find({
+      categoriesname: { $regex: new RegExp(category, "i") },
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: "No products found for this category" });
+    }
+
+    res.status(200).json(products);
+  } catch (err) {
+    console.error("Error fetching products by category:", err.message);
+    res.status(500).json({ message: "Error fetching products by category", error: err.message });
+  }
+};
+
+
 // Add a new card product
 export const addCardProduct = async (req, res) => {
   try {
