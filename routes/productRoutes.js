@@ -7,7 +7,7 @@ import {
 
 const productRouter = express.Router();
 
-// Order matters: Specific routes like "/search" must come before dynamic ones like "/:id"
+// Order matters: More specific routes should come before general ones
 productRouter.get("/search", searchProducts); // Search route
 productRouter.get("/", getProductList); // List products route
 productRouter.get("/:id", getProductRead); // Get product by ID route

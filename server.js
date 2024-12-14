@@ -43,6 +43,7 @@ app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/categories", categoryRouter);
 // Uncomment the below routes when ready
 
 // app.use("/api/user", userRouter);
