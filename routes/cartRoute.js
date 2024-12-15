@@ -1,4 +1,5 @@
 import express from "express";
+import userAuth from "../middlewares/userAuth.js";
 import {
   addToCart,
   updateCart,
@@ -7,9 +8,9 @@ import {
 } from "../controllers/cartColtroller.js";
 const cartRouter = express.Router();
 
-cartRouter.get("/get", getCart);
-cartRouter.post("/add", addToCart);
-cartRouter.put("/update", updateCart);
-cartRouter.delete("/delete", delCart);
+cartRouter.post("/get", userAuth, getCart);
+cartRouter.post("/add", userAuth, addToCart);
+cartRouter.put("/update", userAuth, updateCart);
+cartRouter.post("/delete", userAuth, delCart);
 
 export default cartRouter;

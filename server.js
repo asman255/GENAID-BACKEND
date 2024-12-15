@@ -28,13 +28,14 @@ connectCloudinary();
 app.use(express.json());
 
 // CORS middleware
-app.use(
-  cors({
-    origin: "*", // Adjust the origin as needed for security
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: "*", // Adjust the origin as needed for security
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+app.use(cors());
 
 // API routes
 app.use("/api/products", productRouter);
