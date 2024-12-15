@@ -59,10 +59,10 @@ const addToCart = async (req, res) => {
     if (user.cartData[productKey]) {
       // user.cartData[productKey] += qty;
       user.cartData[productKey] = cartProd;
-      console.log(
-        `Updated quantity for product ${productKey}:`,
-        user.cartData[productKey]
-      );
+      // console.log(
+      //   `Updated quantity for product ${productKey}:`,
+      //   user.cartData[productKey]
+      // );
     } else {
       user.cartData[productKey] = cartProd;
       console.log(`Added new product ${productKey} with quantity:`, qty);
@@ -73,10 +73,10 @@ const addToCart = async (req, res) => {
 
     // Save the updated user document
     await user.save();
-    console.log(
-      "User saved successfully with updated cartData:",
-      user.cartData
-    );
+    // console.log(
+    //   "User saved successfully with updated cartData:",
+    //   user.cartData
+    // );
 
     // Verify the saved data from the database
     // const updatedUser = await userModel.findById(userId);

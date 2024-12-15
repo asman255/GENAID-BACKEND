@@ -86,4 +86,23 @@ const adminLogin = async (req, res) => {
     }
 };  
 
-export { loginUser, registerUser, adminLogin };
+//Route: for getting all address of specific user
+const getUserAddress = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.json({ success: false, message: "User doesn't exist" });
+        }
+        res.json({ success: true, message: "User addresses", addresses: user.address });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+
+
+
+
+export { loginUser, registerUser, adminLogin,getUserAddress };
