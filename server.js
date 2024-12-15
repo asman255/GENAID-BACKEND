@@ -17,7 +17,6 @@ import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 
-
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -48,12 +47,10 @@ app.use("/api/categories", categoryRouter);
 
 // app.use("/api/user", userRouter);
 
-
 // Uncomment the below routes when ready
 // app.use("/api/product", productRouter);
 
 // app.use("/api/cart", cartRouter);
-
 
 // Default route
 app.get("/", (req, res) => {
@@ -68,5 +65,5 @@ app.use((err, req, res, next) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port} 🌐`);
+  console.log(`Server is running on port ${port} \ud83c\udf10`);
 });
