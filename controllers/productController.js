@@ -57,7 +57,6 @@ export const searchProducts = async (req, res) => {
     // Build the query object dynamically
     const query = {};
 
-    // General Search
     if (search) {
       const searchRegex = new RegExp(search.split(" ").join("|"), "i");
       query.$or = [
@@ -68,35 +67,26 @@ export const searchProducts = async (req, res) => {
       ];
     }
 
-    // Filter by Category
-    if (category) {
-      query.categoriesname = { $regex: new RegExp(category, "i") };
-    }
-
-    // Filter by Tag
-    if (tag) {
-      query.tags = { $regex: new RegExp(tag, "i") };
-    }
-
-    // Filter by Price Range
+    if (category) query.categoriesname = { $regex: new RegExp(category, "i") };
+    if (tag) query.tags = { $regex: new RegExp(tag, "i") };
     if (minPrice || maxPrice) {
       query.price = {};
       if (minPrice) query.price.$gte = Number(minPrice);
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    // Validate limit and skip
+    console.log("Search Query:", query); // Debug Query Object
+
     const pageLimit = parseInt(limit) || 10;
     const pageSkip = parseInt(skip) || 0;
-
-    // Default sorting
     const sortOption = sort || "productname";
 
-    // Fetch products from MongoDB
     const searchResults = await Products.find(query)
       .limit(pageLimit)
       .skip(pageSkip)
       .sort(sortOption);
+
+    console.log("Search Results:", searchResults); // Debug Search Results
 
     if (searchResults.length === 0) {
       return res.status(404).json({ message: "No products found" });

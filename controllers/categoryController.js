@@ -27,6 +27,17 @@ export const getProductsByCategory = async (req, res) => {
     }
   };
   
+export const getCategories = async (req, res) => {
+    try {
+        const categories = await categoryModel.find();
+        res.status(200).json(categories);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching categories" });
+    }
+};
+
+  /*
   // Get all categories and their products
   export const getCategories = async (req, res) => {
     try {
@@ -72,3 +83,4 @@ export const getProductsByCategory = async (req, res) => {
       res.status(500).json({ message: "Error fetching categories", error: err.message });
     }
   };
+  */
