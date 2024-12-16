@@ -58,7 +58,8 @@ const addToCart = async (req, res) => {
     // console.log("DEBUG: ",user.cartData[2])
     if (user.cartData[productKey]) {
       // user.cartData[productKey] += qty;
-      user.cartData[productKey] = cartProd;
+      user.cartData[productKey].quantity = qty;
+      // user.cartData[productKey] = cartProd;
       // console.log(
       //   `Updated quantity for product ${productKey}:`,
       //   user.cartData[productKey]
