@@ -115,8 +115,23 @@ const getUserinfo = async (req, res) => {
     }
 };
 
+const editUserinfo = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const { fullname, email, phone } = req.body;
+        const user = await userModel.findByIdAndUpdate(userId, { fullname, email, phone }, { new: true });
+        if (!user) {
+            return res.json({ success: false, message: "User doesn't exist" });
+        }
+        res.json({ success: true, message: "User info updated", user });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
 
 
 
 
-export { loginUser, registerUser, adminLogin,getUserAddress,getUserinfo };
+
+export { loginUser, registerUser, adminLogin,getUserAddress,getUserinfo,editUserinfo };
