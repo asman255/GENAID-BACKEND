@@ -22,22 +22,23 @@ const userOrder = async (req, res) => {
 const createOrder = async (req, res) => {
 
   try {
-    const { userId, Item, address, paymentMethod } = req.body;
+    const {
+      data: { Item, address, paymentMethod, total },
+    } = req.body;
+    const userId = req.userId;
     const user = await userModel.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    const totalPrice = Item.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const discount = 0; // assuming no discount
-    const vat = totalPrice * 0.07; // assuming 7% VAT
-    const paymentTime = ""//new Date().toISOString();
+    const vat = 0; //total * 0.07; // assuming 7% VAT
+    const paymentTime = ""; // new Date().toISOString();
     const shipTime = ""; // assuming no ship time initially
     const date = new Date().toISOString();
 
     const order = await orderModel.create({
       userId,
-      totalPrice,
+      totalPrice: total,
       discount,
       deliveryCharge,
       vat,
@@ -59,6 +60,7 @@ const createOrder = async (req, res) => {
 };
 
 
+
 const orderHistory = async (req, res) => {
   const orderId = req.params.id;
   console.log(req.params);
@@ -76,3 +78,4 @@ const orderHistory = async (req, res) => {
 
 
 export { userOrder,createOrder,orderHistory };
+

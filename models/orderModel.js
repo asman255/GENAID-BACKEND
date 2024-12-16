@@ -23,8 +23,8 @@ const orderSchema = new Mongoose.Schema({
   status: { type: String, required: true, default: "รอชำระ" },
   paymentMethod: { type: String, required: true, default: "PromtPay" },
   payment: { type: Boolean, required: true, default: false },
-  paymentTime: { type: String, required: true },
-  shipTime: { type: String, required: true },
+  paymentTime: { type: String},
+  shipTime: { type: String},
   date: { type: String, required: true },
 });
 const orderModel =

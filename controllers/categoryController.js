@@ -6,8 +6,9 @@ import Products from "../models/productModels.js";
 // Get all products filtered by a specific category
 export const getProductsByCategory = async (req, res) => {
     try {
-      const { category } = req.query;
-  
+      const { category,minPrice,maxPrice } = req.query;
+      console.log(category,minPrice,maxPrice);
+
       if (!category) {
         return res.status(400).json({ message: "Category is required for filtering" });
       }
@@ -15,7 +16,7 @@ export const getProductsByCategory = async (req, res) => {
       const products = await Products.find({
         categoriesname: { $regex: new RegExp(category, "i") },
       });
-  
+      
       if (products.length === 0) {
         return res.status(404).json({ message: "No products found for this category" });
       }
@@ -26,6 +27,40 @@ export const getProductsByCategory = async (req, res) => {
       res.status(500).json({ message: "Error fetching products by category", error: err.message });
     }
   };
+
+
+// export const getProductsByCategory = async (req, res) => {
+//   try {
+//     const { category, minPrice, maxPrice } = req.query;
+//     console.log(category, minPrice, maxPrice);
+
+//     if (!category) {
+//       return res.status(400).json({ message: "Category is required for filtering" });
+//     }
+
+//     const products = await Products.find({
+//       categoriesname: { $regex: new RegExp(category, "i") },
+//       price: { $gte: minPrice, $lte: maxPrice },
+//     }).sort({ price: 1 }); // Sort by price in ascending order
+
+//     // if (products.length === 0) {
+//     //   return res.status(404).json({ message: "No products found for this category" });
+//     // }
+
+//     res.status(200).json(products);
+//   } catch (err) {
+//     console.error("Error fetching products by category:", err.message);
+//     res.status(500).json({ message: "Error fetching products by category", error: err.message });
+//   }
+// };
+
+
+
+
+
+
+
+
   
   // Get all categories and their products
   export const getCategories = async (req, res) => {
