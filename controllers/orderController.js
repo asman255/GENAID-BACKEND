@@ -20,6 +20,7 @@ const userOrder = async (req, res) => {
 };
 
 const createOrder = async (req, res) => {
+
   try {
     const { userId, Item, address, paymentMethod } = req.body;
     const user = await userModel.findById(userId);
@@ -58,6 +59,20 @@ const createOrder = async (req, res) => {
 };
 
 
+const orderHistory = async (req, res) => {
+  const orderId = req.params.id;
+  console.log(req.params);
+  try {
+    const order = await orderModel.findOne({ orderId }); // assuming you have an orderModel
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    res.json(order);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
 
 
-export { userOrder,createOrder };
+export { userOrder,createOrder,orderHistory };
