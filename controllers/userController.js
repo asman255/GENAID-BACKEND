@@ -101,8 +101,22 @@ const getUserAddress = async (req, res) => {
     }
 };
 
+const getUserinfo = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await userModel.findById(userId, { password: 0, cartData: 0 });
+        if (!user) {
+            return res.json({ success: false, message: "User doesn't exist" });
+        }
+        res.json({ success: true, message: "User info", user });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
 
 
 
 
-export { loginUser, registerUser, adminLogin,getUserAddress };
+
+export { loginUser, registerUser, adminLogin,getUserAddress,getUserinfo };
