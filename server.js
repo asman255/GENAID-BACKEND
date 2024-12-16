@@ -11,7 +11,6 @@ import orderRouter from "./routes/orderRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
 
 // import connectCloudinary from "./config/cloudinary.js";
-// import productRouter from "./routes/productRoute.js";
 // import cartRouter from "./routes/cartRoute.js";
 import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoute.js";
@@ -27,14 +26,6 @@ connectCloudinary();
 // Middleware to parse JSON
 app.use(express.json());
 
-// CORS middleware
-// app.use(
-//   cors({
-//     origin: "*", // Adjust the origin as needed for security
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
 app.use(cors());
 
 // API routes
