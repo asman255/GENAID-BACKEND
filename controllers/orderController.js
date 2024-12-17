@@ -30,13 +30,17 @@ const createOrder = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    
     const discount = 0; // assuming no discount
     const vat = 0; //total * 0.07; // assuming 7% VAT
     const paymentTime = ""; // new Date().toISOString();
     const shipTime = ""; // assuming no ship time initially
     const date = new Date().toISOString();
+    const orderCount = await orderModel.countDocuments();
+    const orderId = `order-${date.replace('T', '-').replace('Z', '').replace(/:\d\d\.\d\d\d/, '').replace(/:/, '')}-${orderCount + 1}`;
 
     const order = await orderModel.create({
+      orderId,
       userId,
       totalPrice: total,
       discount,
