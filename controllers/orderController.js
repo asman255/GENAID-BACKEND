@@ -37,7 +37,7 @@ const createOrder = async (req, res) => {
     const shipTime = ""; // assuming no ship time initially
     const date = new Date().toISOString();
     const orderCount = await orderModel.countDocuments();
-    const orderId = `order-${date.replace('T', '-').replace('Z', '').replace(/:\d\d\.\d\d\d/, '').replace(/:/, '')}-${orderCount + 1}`;
+    const orderId = `order-${new Date().getFullYear()}${('000000' + (orderCount + 1)).slice(-6)}`;
 
     const order = await orderModel.create({
       orderId,
