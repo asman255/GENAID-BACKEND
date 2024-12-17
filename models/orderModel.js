@@ -13,7 +13,7 @@ import Mongoose from "mongoose";
 // });
 const orderSchema = new Mongoose.Schema({
   userId: { type: String, required: true },
-  orderId: { type: String, required: true, default: "order-" + Date.now() },
+  orderId: { type: String, required: true},
   totalPrice: { type: Number, required: true },
   discount: { type: Number, required: true },
   deliveryCharge: { type: Number, required: true },
